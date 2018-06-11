@@ -14,10 +14,14 @@ def assign_capitaine(votes):
 
     return joueur
 
-def design_capitaine(capitaine):
+def design_capitaine(self,capitaine):
+    '''designe le nouveau capitaine'''
     return capitaine
 
 def vote(self,votes):
+    '''fait un vote si personne ex oequos : le joueur est stocké dans self.__tue
+     sinon on annonce les joueurs a égalité de votes'''
+
     maxi = []
     for i in votes.keys():
         if votes[i] >= max(votes.values()) :
@@ -33,4 +37,5 @@ def vote(self,votes):
             else :
                 phrase += ', ' + str(maxi[i])
         return phrase
+    self.__tue = maxi[0]
     return maxi[0]
