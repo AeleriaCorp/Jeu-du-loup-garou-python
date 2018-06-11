@@ -36,7 +36,7 @@ class Loup:
         for i in self.__tue:
             del(self.__nom[i])
             if i == 0:
-                phrase += ' ' + str(i)
+                phrase += str(i)
             elif i == len(self.__tue)-1:
                 phrase += ' et '+str(i)
             else :
