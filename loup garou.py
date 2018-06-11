@@ -6,6 +6,8 @@ class Loup:
     def __init__(self,nb_player,pseudos):
         '''Initialisation du loup garou'''
         self.__role=[mj,loup,loup,voyante,sorciere,voleur,chasseur,cupidon]
+        self.__tue = ''
+        self.__amoureux = ()
 
     def role(self,roles,nb_player,pseudos):
         '''Defini les rôles des personnes'''
