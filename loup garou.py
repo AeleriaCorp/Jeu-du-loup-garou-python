@@ -31,6 +31,21 @@ class Loup:
         return self.__nom
 
     #--------------------------JOUR--------------------------------------------------------------
+    def tuer(self):
+        phrase = ''
+        for i in self.__tue:
+            del(self.__nom[i])
+            if i == 0:
+                phrase += ' ' + str(i)
+            elif i == len(self.__tue)-1:
+                phrase += ' et '+str(i)
+            else :
+                phrase += ', ' + str(i)
+
+        if len(self.__tue)>1:
+            return 'Les joueurs ' + phrase + ' sont morts cette nuit'
+        return 'Le joueur ' + str(self.__tue[0]) + 'est mort cette nuit'
+
     def assign_capitaine(self,votes):
     '''assigne le role de capitaine en fonction des resultat du votes
     vote = {pseudo:vote}'''
