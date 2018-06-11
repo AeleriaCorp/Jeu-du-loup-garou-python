@@ -29,7 +29,8 @@ class Loup:
 
     def nom_role(self):
         return self.__nom
-    
+
+    #--------------------------JOUR--------------------------------------------------------------
     def assign_capitaine(self,votes):
     '''assigne le role de capitaine en fonction des resultat du votes
     vote = {pseudo:vote}'''
@@ -67,9 +68,10 @@ class Loup:
                 else :
                     phrase += ', ' + str(maxi[i])
             return phrase
-        
+
         self.__tue = maxi[0]
         return maxi[0]
+    #-------------------------NUIT---------------------------------------------------------
 
 
 if 'name' == 'name':
