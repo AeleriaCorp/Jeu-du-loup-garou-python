@@ -1,0 +1,56 @@
+Class loup (nb de personnes,liste[nom])
+	dictionnaire avec les personnes, leur classes
+	
+	Init
+		- liste[mj,loup,loup,voyante,sorciere,voleur,chasseur,cupidon]
+		- villageois
+
+		dico { nom : role }
+
+		Tableau
+		
+		dico { nbre de joueurs : (loup,villageois) }
+		
+		nbtué : var
+		amoureux :tuple(1,2)
+		tuéloup: var
+
+	
+	methode rôle (villageois):
+		
+		rôle
+		villageois
+
+	
+	---------------------------------------------------------------------------
+
+	Bro-vin
+	
+	methode capitaine
+
+	methode suivantcapitaine
+	
+	methode nb tué
+	
+	methode vote (dico {nom : vote})
+
+	----------------------------------------------------------------------------
+	
+	Aeiyko
+
+	methode voleur
+
+	methode cupidon
+
+	methode amoureux
+	
+	mehode voyante
+
+	methode loup
+	
+	methode sorciere
+
+	methode chasseur
+
+	
+	
