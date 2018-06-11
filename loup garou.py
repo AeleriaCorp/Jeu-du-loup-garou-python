@@ -118,6 +118,23 @@ class Loup:
 
 
 
+    def ordre_premiere_nuit(self):
+        ordre = ['voleur','cupidon','amoureux','voyante','loup','sorciere']
+        vrai_ordre = []
+        for i in ordre :
+            if i in self.__nom.values():
+                vrai_ordre.append(i)
+
+        return vrai_ordre
+
+    def ordre_nuits(self):
+        ordre = ['voyante','loup','sorciere']
+        vrai_ordre = []
+        for i in ordre :
+            if i in self.__nom.values():
+                vrai_ordre.append(i)
+
+        return vrai_ordre
 
 if 'name' == 'name':
     prout=Loup(["jean miche","kevin","gertrude","neuf","françois"])
