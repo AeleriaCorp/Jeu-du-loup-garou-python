@@ -9,7 +9,7 @@ class Loup:
         self.__pseudos=pseudos
         self.__nb_player=len(pseudos)
         self.__nom={}
-        self.__tue = ''
+        self.__tue = []
         self.__amoureux = ()
 
     def role(self):
