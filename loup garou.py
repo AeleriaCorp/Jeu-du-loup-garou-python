@@ -87,6 +87,51 @@ class Loup:
         self.__tue = maxi[0]
         return maxi[0]
     #-------------------------NUIT---------------------------------------------------------
+    def voleur(self):
+        '''Fonction voleur'''
+        pass
+
+    def cupidon(self):
+        '''Fonction cupidon'''
+        nom1= input("Donner le nom du premier amoureux : ")
+        nom2= input("Donner le nom du deuxième amoureux : ")
+        self.__amoureux=(nom1,nom2)
+
+    def amoureux(self):
+        '''Fonction amoureux'''
+        print("les deux amoureux se réveille (",self.__amoureux[0],",",self.__amoureux[1],")")
+
+    def voyante(self):
+        '''Fonction voyante'''
+        nom=input("la voyante se réveille et donne le nom de la personne qu elle veux connaître : ")
+        print("Cette personne est : ",self.__nom[nom])
+
+    def loup(self,nom):
+        '''Fonction loup'''
+        self.__tue=nom
+
+    def sorciere(self):
+        '''Fonction sorciere'''
+        choix=input("la sorciere veut elle faire quelque chose ? : ")
+        choix.uppercase()
+        if choix == "OUI":
+            popo=input("potion/poison ? : ")
+            popo.uppercase()
+            if self.__potion == True and popo=="POTION":
+                choix2=input("Est ce que la sorciere veut sauver ",self.__tue)
+                return 0,choix2
+            elif self.__poison == True and popo=="POISON":
+                choix3=input("Qui la sorciere veut elle empoisonné : ")
+                return 1,choix3
+            else:
+                print("la sorciere ne fait rien")
+
+    def chasseur(self):
+        '''Fonction chasseur'''
+        choix=input("Qui le chasseur veut-il tuer ? : ")
+        return choix
+
+
 
     def ordre_premiere_nuit(self):
         ordre = ['voleur','cupidon','amoureux','voyante','loup','sorciere']
