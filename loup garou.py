@@ -84,8 +84,7 @@ class Loup:
                     phrase += ', ' + str(maxi[i])
             return phrase
 
-        self.__tue = maxi[0]
-        return maxi[0]
+        self.__tue.append(maxi[0])
     #-------------------------NUIT---------------------------------------------------------
     def voleur(self):
         '''Fonction voleur'''
@@ -148,7 +147,48 @@ class Loup:
 
         return vrai_ordre
 
+    def appel_fonction(self):
+        if "loup" in self.__vrai_ordre.values():
+            self.loup()
+        if "voyante" in self.__vrai_ordre.values():
+            self.voyante()
+        if "sorciere" in self.__vrai_ordre.values():
+            self.sorciere()
+        if "voleur" in self.__vrai_ordre.values():
+            self.voleur()
+        if "chasseur" in self.__vrai_ordre.values():
+            self.chasseur()
+        if "cupidon" in self.__vrai_ordre.values():
+            self.cupidon()
+
+    def loup_vivant(self):
+        return "loup" in self.__nom.values()
+
+    def villageois_vivant(self):
+        x=0
+        for i in self.__nom.keys():
+            if self.__nom[i] != "loup" and self.__nom[i] != "mj":
+                x+=1
+        return x>=2
+
 if 'name' == 'name':
-    prout=Loup(["jean miche","kevin","gertrude","neuf","françois"])
-    prout.role()
-    print(prout.nom_role())
+    loup=Loup(["jean miche","kevin","gertrude","neuf","françois"])
+    print(loup.nom_role())
+    loup.ordre_premiere_nuit()
+    loup.appel_fonction()
+    loupgarou=False
+    villageois=False
+    while villageois == False and loupgarou == False:
+        loup.ordre_nuits()
+        loup.appel_fonction()
+        loup.tuer()
+        loup.vote()
+        loup.tuer()
+        if loup.loup_vivant() == False:
+            loupgarou=True
+        elif loup.villageois_vivant() == False:
+            villageois=True
+    if loupgarou == True:
+        print("Les loups garou ont gagné")
+    else :
+        print("Les villageois ont gagné")         
