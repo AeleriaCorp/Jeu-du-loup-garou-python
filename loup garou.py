@@ -1,4 +1,5 @@
 from random import randint
+from string import *
 DICO_NBJOUEURS = {8:(2,6),9:(2,7),10:(2,8),11:(2,9),12:(3,9),13:(3,10),14:(3,11),15:(3,12),16:(3,13),17:(3,14),18:(4,14)}
 
 class Loup:
@@ -11,6 +12,7 @@ class Loup:
         self.__nom={}
         self.__tue = []
         self.__amoureux = ()
+        self.role()
 
     def role(self):
         '''Defini les rôles des personnes'''
@@ -21,10 +23,11 @@ class Loup:
             x=randint(0,len(liste)-1)
             if tmp==0:
                 self.__nom[liste[x]] = self.__role[i]
+                i+=1
             else :
                 self.__nom[liste[x]] = "villageois"
             del(liste[x])
-            i+=1
+            
             tmp= (tmp+1)%2
 
     def nom_role(self):
@@ -35,16 +38,14 @@ class Loup:
         phrase = ''
         for i in self.__tue:
             del(self.__nom[i])
-            if i == 0:
-                phrase += str(i)
-            elif i == len(self.__tue)-1:
-                phrase += ' et '+str(i)
-            else :
-                phrase += ', ' + str(i)
+            phrase += ', ' + i
 
         if len(self.__tue)>1:
             return 'Les joueurs ' + phrase + ' sont morts cette nuit'
-        return 'Le joueur ' + str(self.__tue[0]) + ' est mort cette nuit'
+        elif len(self.__tue) == 1:
+            return 'Le joueur ' + str(self.__tue[0]) + ' est mort cette nuit'
+        else :
+            return "Personne n'est mort cette nuit"
 
     def assign_capitaine(self,votes):
         '''assigne le role de capitaine en fonction des resultat du votes
@@ -70,21 +71,19 @@ class Loup:
 
         maxi = []
         for i in votes.keys():
-            if votes[i] >= max(votes.values()) :
+            if votes[i] == max(votes.values()) :
                 maxi.append(i)
+        if len(maxi) == 1 :
+            self.__tue.append(maxi[0])
+        else:
+            print('Le vote se fera entre : ')
+            for j in range(len(maxi)):
+                print(' - ',maxi[j])
+            x = input('Votre choix : ')
+            self.__tue.append(x)
 
-        if len(maxi) > 1 :
-            phrase = "le vote se fera entre : "
-            for i in range(len(maxi)):
-                if i == 0:
-                    phrase += str(maxi[i])
-                elif i == len(maxi)-1:
-                    phrase += ' et '+str(maxi[i])
-                else :
-                    phrase += ', ' + str(maxi[i])
-            return phrase
-
-        self.__tue.append(maxi[0])
+        
+        
     #-------------------------NUIT---------------------------------------------------------
     def voleur(self):
         '''Fonction voleur'''
@@ -105,17 +104,20 @@ class Loup:
         nom=input("la voyante se réveille et donne le nom de la personne qu'elle veux connaître : ")
         print("Cette personne est : ",self.__nom[nom])
 
-    def loup(self,nom):
+    def loup(self):
         '''Fonction loup'''
-        self.__tue.append(nom)
+        votes = input('Entrez les votes (loup) : ')
+        dico = {votes:1}
+        self.vote(dico)
+        
 
     def sorciere(self):
         '''Fonction sorciere'''
         choix=input("la sorciere veut elle faire quelque chose ? : ")
-        choix.uppercase()
+        choix.upper()
         if choix == "OUI":
             popo=input("potion/poison ? : ")
-            popo.uppercase()
+            popo.upper()
             if self.__potion == True and popo=="POTION":
                 choix2=input("Est ce que la sorciere veut sauver ",self.__tue[-1])
             elif self.__poison == True and popo=="POISON":
@@ -130,13 +132,13 @@ class Loup:
         self.__tue.append(choix)
 
     def ordre_premiere_nuit(self):
-        ordre = ['voleur','cupidon','amoureux','voyante','loup','sorciere']
+        ordre = ['voleur','cupidon']
         self.__vrai_ordre = []
         for i in ordre :
             if i in self.__nom.values():
                 self.__vrai_ordre.append(i)
 
-        return vrai_ordre
+        
 
     def ordre_nuits(self):
         ordre = ['voyante','loup','sorciere']
@@ -145,21 +147,23 @@ class Loup:
             if i in self.__nom.values():
                 self.__vrai_ordre.append(i)
 
-        return vrai_ordre
+        
 
     def appel_fonction(self):
-        if "loup" in self.__vrai_ordre.values():
-            self.loup()
-        if "voyante" in self.__vrai_ordre.values():
+        if "voyante" in self.__vrai_ordre:
             self.voyante()
-        if "sorciere" in self.__vrai_ordre.values():
+        if "loup" in self.__vrai_ordre:
+            self.loup()
+        if "sorciere" in self.__vrai_ordre:
             self.sorciere()
-        if "voleur" in self.__vrai_ordre.values():
+        if "voleur" in self.__vrai_ordre:
             self.voleur()
-        if "chasseur" in self.__vrai_ordre.values():
+        if "chasseur" in self.__vrai_ordre:
             self.chasseur()
-        if "cupidon" in self.__vrai_ordre.values():
+        if "cupidon" in self.__vrai_ordre:
             self.cupidon()
+            self.amoureux()
+        
 
     def loup_vivant(self):
         return "loup" in self.__nom.values()
@@ -170,19 +174,23 @@ class Loup:
             if self.__nom[i] != "loup" and self.__nom[i] != "mj":
                 x+=1
         return x>=2
-
+    
 if 'name' == 'name':
-    loup=Loup(["jean miche","kevin","gertrude","neuf","françois"])
+    loup=Loup(["jean miche","kevin","gertrude","neuf","françois","bourdin","courgette","licorne","tesla",'milka','bite','couille','testicule droit','testicule gauche','ponyta','mamie'])
     print(loup.nom_role())
     loup.ordre_premiere_nuit()
+    print('Les loups se réveillent prennent connaissance de leur meute et se rendorment')
     loup.appel_fonction()
+    print('fin de la première nuit')
     loupgarou=False
     villageois=False
     while villageois == False and loupgarou == False:
         loup.ordre_nuits()
         loup.appel_fonction()
         loup.tuer()
-        loup.vote()
+        votes = input('Entrez les votes : ')
+        dico = {votes:1}
+        loup.vote(dico)
         loup.tuer()
         if loup.loup_vivant() == False:
             loupgarou=True
@@ -191,4 +199,4 @@ if 'name' == 'name':
     if loupgarou == True:
         print("Les loups garou ont gagné")
     else :
-        print("Les villageois ont gagné")         
+        print("Les villageois ont gagné")       
