@@ -108,7 +108,7 @@ class Loup:
 
     def loup(self,nom):
         '''Fonction loup'''
-        self.__tue=nom
+        self.__tue.append(nom)
 
     def sorciere(self):
         '''Fonction sorciere'''
@@ -118,11 +118,10 @@ class Loup:
             popo=input("potion/poison ? : ")
             popo.uppercase()
             if self.__potion == True and popo=="POTION":
-                choix2=input("Est ce que la sorciere veut sauver ",self.__tue)
-                return 0,choix2
+                choix2=input("Est ce que la sorciere veut sauver ",self.__tue[-1])
             elif self.__poison == True and popo=="POISON":
                 choix3=input("Qui la sorciere veut elle empoisonné : ")
-                return 1,choix3
+                self.__tue.append(choix3)
             else:
                 print("la sorciere ne fait rien")
 
