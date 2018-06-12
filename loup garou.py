@@ -128,7 +128,7 @@ class Loup:
     def chasseur(self):
         '''Fonction chasseur'''
         choix=input("Qui le chasseur veut-il tuer ? : ")
-        self.__tue.append(chioix)
+        self.__tue.append(choix)
 
 
 
