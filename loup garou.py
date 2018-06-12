@@ -44,7 +44,7 @@ class Loup:
 
         if len(self.__tue)>1:
             return 'Les joueurs ' + phrase + ' sont morts cette nuit'
-        return 'Le joueur ' + str(self.__tue[0]) + 'est mort cette nuit'
+        return 'Le joueur ' + str(self.__tue[0]) + ' est mort cette nuit'
 
     def assign_capitaine(self,votes):
         '''assigne le role de capitaine en fonction des resultat du votes
