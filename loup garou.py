@@ -99,11 +99,11 @@ class Loup:
 
     def amoureux(self):
         '''Fonction amoureux'''
-        print("les deux amoureux se réveille (",self.__amoureux[0],",",self.__amoureux[1],")")
+        print("les deux amoureux se réveillent (",self.__amoureux[0],",",self.__amoureux[1],")")
 
     def voyante(self):
         '''Fonction voyante'''
-        nom=input("la voyante se réveille et donne le nom de la personne qu elle veux connaître : ")
+        nom=input("la voyante se réveille et donne le nom de la personne qu'elle veux connaître : ")
         print("Cette personne est : ",self.__nom[nom])
 
     def loup(self,nom):
@@ -129,8 +129,6 @@ class Loup:
         '''Fonction chasseur'''
         choix=input("Qui le chasseur veut-il tuer ? : ")
         self.__tue.append(choix)
-
-
 
     def ordre_premiere_nuit(self):
         ordre = ['voleur','cupidon','amoureux','voyante','loup','sorciere']
