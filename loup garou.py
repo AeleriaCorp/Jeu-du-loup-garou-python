@@ -170,9 +170,8 @@ class Loup:
         '''Fonction loup'''
         self.nom()
         print("les loups se réveillent")
-        votes = input('Entrez les votes (loup) : ')
-        dico = {votes:1} #regler le pb du vote
-        self.vote(dico)
+        votes = input('Entrez le dictionnaire des votes (loup) : ')
+        self.vote(votes)
 
 
     def sorciere(self):
