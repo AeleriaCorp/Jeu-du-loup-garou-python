@@ -1,15 +1,14 @@
 from random import randint
 from string import *
-DICO_NBJOUEURS = {7:(2,0,0,0,0,1,0,2),8:(2,0,0,0,0,1,0,3),9:(2,0,0,0,0,1,0,4),10:(2,0,1,1,0,0,0,4),
-11:(2,1,1,1,0,0,0,4),12:(2,0,1,1,1,0,0,5),13:(3,1,1,1,0,0,1,4),14:(3,0,1,1,1,0,1,5),
-15:(3,1,1,1,0,0,1,6),16:(3,0,1,1,1,0,1,7),17:(3,1,1,1,1,0,1,7),18:(4,1,1,1,1,0,1,7),19:(4,1,1,1,1,0,1,8)}
+DICO_NBJOUEURS = {7:(2,0,0,0,0,1,0,2),8:(2,0,0,0,0,1,0,3),9:(2,0,0,0,0,1,0,4),10:(2,0,1,1,0,0,0,4),11:(2,1,1,1,0,0,0,4),12:(2,0,1,1,1,0,0,5),13:(3,1,1,1,0,0,1,4),14:(3,0,1,1,1,0,1,5),15:(3,1,1,1,0,0,1,6),16:(3,0,1,1,1,0,1,7),17:(3,1,1,1,1,0,1,7),18:(4,1,1,1,1,0,1,7),19:(4,1,1,1,1,0,1,8)}
 '''DICO = {nb_joueurs:(nb_loups,nb_bouc,nb_cupidon,nb_chasseur,nb_sorciere,nb_capitaine,nb__voleur,nb_villageois)}'''
+
 
 class Loup:
 
     def __init__(self,pseudos):
         '''Initialisation du loup garou'''
-        self.__role=["mj","loup","voyante","sorciere","voleur","chasseur","cupidon","bouc_emissaire"]
+        self.__role=["mj","loup","loup","voyante","sorciere","voleur","chasseur","cupidon"]
         self.__pseudos=pseudos
         self.__nb_player=len(pseudos)
         self.__nom={}
@@ -38,17 +37,12 @@ class Loup:
     def nom_role(self):
         return self.__nom
 
-<<<<<<< HEAD
-    def nb_player(self):
-        return self.__nb_player
-=======
     def nom(self):
         liste=[]
         for nom in self.__nom:
             if self.__nom[nom]!="mj":
                 liste.append(nom)
         return liste
->>>>>>> 3616614c1d9602c29ec43925dd0ed82fb581f443
 
     #--------------------------JOUR--------------------------------------------------------------
     def tuer(self):
@@ -227,6 +221,7 @@ if 'name' == 'name':
         loup.appel_fonction()
         loup.tuer()
         votes = input('Entrez les votes : ')
+        dico = {votes:1}
         loup.vote(dico)
         loup.tuer()
         if loup.loup_vivant() == False:
