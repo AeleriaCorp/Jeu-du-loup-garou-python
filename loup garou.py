@@ -13,6 +13,8 @@ class Loup:
         self.__tue = []
         self.__amoureux = ()
         self.role()
+        self.__potion=True
+        self.__poison=True
 
     def role(self):
         '''Defini les rôles des personnes'''
@@ -27,11 +29,18 @@ class Loup:
             else :
                 self.__nom[liste[x]] = "villageois"
             del(liste[x])
-            
+
             tmp= (tmp+1)%2
 
     def nom_role(self):
         return self.__nom
+
+    def nom(self):
+        liste=[]
+        for nom in self.__nom:
+            if self.__nom[nom]!="mj":
+                liste.append(nom)
+        return liste
 
     #--------------------------JOUR--------------------------------------------------------------
     def tuer(self):
@@ -82,15 +91,22 @@ class Loup:
             x = input('Votre choix : ')
             self.__tue.append(x)
 
-        
-        
+
+
     #-------------------------NUIT---------------------------------------------------------
     def voleur(self):
         '''Fonction voleur'''
-        pass
+        self.nom()
+        choix=input("Donner le nom de la personne a voler : ")
+        tmp=self.__nom[choix]
+        self.__nom[choix]="villageois"
+        for nom in self.__nom:
+            if self.__nom[nom] == "voleur":
+                self.__nom[nom]=tmp
 
     def cupidon(self):
         '''Fonction cupidon'''
+        self.nom()
         nom1= input("Donner le nom du premier amoureux : ")
         nom2= input("Donner le nom du deuxième amoureux : ")
         self.__amoureux=(nom1,nom2)
@@ -101,33 +117,44 @@ class Loup:
 
     def voyante(self):
         '''Fonction voyante'''
+        self.nom()
         nom=input("la voyante se réveille et donne le nom de la personne qu'elle veux connaître : ")
         print("Cette personne est : ",self.__nom[nom])
 
     def loup(self):
         '''Fonction loup'''
+        self.nom()
         votes = input('Entrez les votes (loup) : ')
         dico = {votes:1}
         self.vote(dico)
-        
+
 
     def sorciere(self):
         '''Fonction sorciere'''
-        choix=input("la sorciere veut elle faire quelque chose ? : ")
-        choix.upper()
-        if choix == "OUI":
-            popo=input("potion/poison ? : ")
-            popo.upper()
-            if self.__potion == True and popo=="POTION":
-                choix2=input("Est ce que la sorciere veut sauver ",self.__tue[-1])
-            elif self.__poison == True and popo=="POISON":
-                choix3=input("Qui la sorciere veut elle empoisonné : ")
-                self.__tue.append(choix3)
-            else:
-                print("la sorciere ne fait rien")
+        if self.__potion==True or self.__poison==True:
+            self.nom()
+            choix=input("la sorciere veut elle faire quelque chose ? : ")
+            choix=choix.upper()
+            if choix == "OUI":
+                popo=input("potion/poison ? : ")
+                popo=popo.upper()
+                if self.__potion == True and popo=="POTION":
+                    print("Est ce que la sorciere veut sauver ",self.__tue[-1],"?",end="")
+                    choix2=input(" ")
+                    choix2=choix2.upper()
+                    if choix2 == "OUI" and len(self.__tue)!=0:
+                        del(self.__tue[-1])
+                        self.__potion=False
+                elif self.__poison == True and popo=="POISON":
+                    choix3=input("Qui la sorciere veut elle empoisonné : ")
+                    self.__tue.append(choix3)
+                    self.__poison=False
+                else:
+                    print("la sorciere ne fait rien")
 
     def chasseur(self):
         '''Fonction chasseur'''
+        self.nom()
         choix=input("Qui le chasseur veut-il tuer ? : ")
         self.__tue.append(choix)
 
@@ -138,7 +165,7 @@ class Loup:
             if i in self.__nom.values():
                 self.__vrai_ordre.append(i)
 
-        
+
 
     def ordre_nuits(self):
         ordre = ['voyante','loup','sorciere']
@@ -147,7 +174,7 @@ class Loup:
             if i in self.__nom.values():
                 self.__vrai_ordre.append(i)
 
-        
+
 
     def appel_fonction(self):
         if "voyante" in self.__vrai_ordre:
@@ -163,7 +190,7 @@ class Loup:
         if "cupidon" in self.__vrai_ordre:
             self.cupidon()
             self.amoureux()
-        
+
 
     def loup_vivant(self):
         return "loup" in self.__nom.values()
@@ -174,7 +201,7 @@ class Loup:
             if self.__nom[i] != "loup" and self.__nom[i] != "mj":
                 x+=1
         return x>=2
-    
+
 if 'name' == 'name':
     loup=Loup(["jean miche","kevin","gertrude","neuf","françois","bourdin","courgette","licorne","tesla",'milka','bite','couille','testicule droit','testicule gauche','ponyta','mamie'])
     print(loup.nom_role())
@@ -199,4 +226,4 @@ if 'name' == 'name':
     if loupgarou == True:
         print("Les loups garou ont gagné")
     else :
-        print("Les villageois ont gagné")       
+        print("Les villageois ont gagné")
