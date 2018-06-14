@@ -110,7 +110,7 @@ class Loup:
         self.__capitaine = nv_capitaine
 
     def vote(self,votes):
-        '''fait un vote si personne ex oequos : le joueur est stocké dans self.__tue
+        '''fait un vote si personne ex oequos : le bouc_emissaire meurt et si c'est déjà le cas le joueur est stocké dans self.__tue
          sinon on annonce les joueurs a égalité de votes'''
 
         maxi = []
@@ -119,6 +119,12 @@ class Loup:
                 maxi.append(i)
         if len(maxi) == 1 :
             self.__tue.append(maxi[0])
+
+        elif 'bouc_emissaire' in self.__nom.values():
+            for pseudo in self.__nom.keys():
+                if self.__nom[pseudo] == 'bouc_emissaire':
+                    self.__tue.append(pseudo)
+                    print(self.__nom[pseudo],"(le bouc émissaire), est sur le point d'être sacrifié")
         else:
             print('Le vote se fera entre : ')
             for j in range(len(maxi)):
