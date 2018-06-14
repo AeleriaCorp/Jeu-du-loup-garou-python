@@ -1,22 +1,48 @@
 from random import randint
 from string import *
-DICO_NBJOUEURS = {7:(2,0,0,0,0,1,0,2),8:(2,0,0,0,0,1,0,3),9:(2,0,0,0,0,1,0,4),10:(2,0,1,1,0,0,0,4),11:(2,1,1,1,0,0,0,4),12:(2,0,1,1,1,0,0,5),13:(3,1,1,1,0,0,1,4),14:(3,0,1,1,1,0,1,5),15:(3,1,1,1,0,0,1,6),16:(3,0,1,1,1,0,1,7),17:(3,1,1,1,1,0,1,7),18:(4,1,1,1,1,0,1,7),19:(4,1,1,1,1,0,1,8)}
-'''DICO = {nb_joueurs:(nb_loups,nb_bouc,nb_cupidon,nb_chasseur,nb_sorciere,nb_capitaine,nb__voleur,nb_villageois)}'''
+
+DICO_NBJOUEURS = {7:(2,0,0,0,0,0,3),8:(2,0,0,0,0,0,4),9:(2,0,0,0,0,0,5),10:(2,0,1,1,0,0,4),
+11:(2,1,1,1,0,0,4),12:(2,0,1,1,1,0,5),13:(3,1,1,1,0,1,4),14:(3,0,1,1,1,1,5),15:(3,1,1,1,0,1,6)
+,16:(3,0,1,1,1,1,7),17:(3,1,1,1,1,1,7),18:(4,1,1,1,1,1,7),19:(4,1,1,1,1,1,8)}
+'''DICO = {nb_joueurs:(nb_loups,nb_bouc,nb_cupidon,nb_chasseur,nb_sorciere,nb_capitaine,nb__voleur,nb_villageois)}
+le capitaine est compté dans les villageois pour 7,8 et 9'''
 
 
 class Loup:
 
     def __init__(self,pseudos):
         '''Initialisation du loup garou'''
-        self.__role=["mj","loup","loup","voyante","sorciere","voleur","chasseur","cupidon"]
+        self.__role=["mj","loup","voyante","sorciere","voleur","chasseur","cupidon","bouc_emissaire"]
+        self.__role_2 = ["loup","bouc_emissaire","cupidon","chasseur","sorciere","voleur",'villageois']
         self.__pseudos=pseudos
         self.__nb_player=len(pseudos)
         self.__nom={}
         self.__tue = []
         self.__amoureux = ()
-        self.role()
+        self.role_2()
         self.__potion=True
         self.__poison=True
+
+    def nb_player(self):
+        return self.__nb_player
+
+    def role_2(self):
+        pseudos = self.__pseudos.copy()
+        roles_usuels = ['voyante','mj']
+        for i in range(2):
+            num = randint(0,len(pseudos)-1)
+            self.__nom[pseudos[num]] = roles_usuels[i]
+            del(pseudos[num])
+
+        i = 0
+        while i < len(self.__role_2):
+            for a in range(DICO_NBJOUEURS[self.__nb_player][i]):
+                if DICO_NBJOUEURS[self.__nb_player][i] != 0 and not pseudos == []:
+                    num = randint(0,len(pseudos)-1)
+                    self.__nom[pseudos[num]] = self.__role_2[i]
+                    del(pseudos[num])
+            i += 1
+
 
     def role(self):
         '''Defini les rôles des personnes'''
@@ -58,6 +84,11 @@ class Loup:
         else :
             return "Personne n'est mort cette nuit"
 
+        if self.__capitaine in self.__tue :
+            self.design_capitaine()
+        self.__tue = []
+
+
     def assign_capitaine(self,votes):
         '''assigne le role de capitaine en fonction des resultat du votes
         vote = {pseudo:vote}'''
@@ -70,11 +101,13 @@ class Loup:
             a = randint(0,len(maxi)-1)
             joueur = maxi[a]
 
-        return joueur
+        self.__capitaine = joueur
 
-    def design_capitaine(self,capitaine):
+
+    def design_capitaine(self):
         '''designe le nouveau capitaine'''
-        self.__capitaine = capitaine
+        nv_capitaine = input("Le défunt capitaine nomme son succésseur : ")
+        self.__capitaine = nv_capitaine
 
     def vote(self,votes):
         '''fait un vote si personne ex oequos : le joueur est stocké dans self.__tue
@@ -95,10 +128,13 @@ class Loup:
 
 
 
+
+
     #-------------------------NUIT---------------------------------------------------------
     def voleur(self):
         '''Fonction voleur'''
         self.nom()
+        print("Le voleur se réveille")
         choix=input("Donner le nom de la personne a voler : ")
         tmp=self.__nom[choix]
         self.__nom[choix]="villageois"
@@ -109,6 +145,7 @@ class Loup:
     def cupidon(self):
         '''Fonction cupidon'''
         self.nom()
+        print("Cupidon se réveille")
         nom1= input("Donner le nom du premier amoureux : ")
         nom2= input("Donner le nom du deuxième amoureux : ")
         self.__amoureux=(nom1,nom2)
@@ -126,8 +163,9 @@ class Loup:
     def loup(self):
         '''Fonction loup'''
         self.nom()
+        print("les loups se réveillent")
         votes = input('Entrez les votes (loup) : ')
-        dico = {votes:1}
+        dico = {votes:1} #regler le pb du vote
         self.vote(dico)
 
 
@@ -135,7 +173,8 @@ class Loup:
         '''Fonction sorciere'''
         if self.__potion==True or self.__poison==True:
             self.nom()
-            choix=input("la sorciere veut elle faire quelque chose ? : ")
+            print("La sorcière se réveille")
+            choix=input("veut-elle faire quelque chose ? : ")
             choix=choix.upper()
             if choix == "OUI":
                 popo=input("potion/poison ? : ")
@@ -145,10 +184,12 @@ class Loup:
                     choix2=input(" ")
                     choix2=choix2.upper()
                     if choix2 == "OUI" and len(self.__tue)!=0:
+                        print(self.__tue[-1],"a été sauvé")
                         del(self.__tue[-1])
                         self.__potion=False
+
                 elif self.__poison == True and popo=="POISON":
-                    choix3=input("Qui la sorciere veut elle empoisonné : ")
+                    choix3=input("Qui la sorciere veut-elle empoisonner ? : ")
                     self.__tue.append(choix3)
                     self.__poison=False
                 else:
@@ -157,6 +198,7 @@ class Loup:
     def chasseur(self):
         '''Fonction chasseur'''
         self.nom()
+        print("Le chasseur se réveille")
         choix=input("Qui le chasseur veut-il tuer ? : ")
         self.__tue.append(choix)
 
@@ -205,7 +247,7 @@ class Loup:
         return x>=2
 
 if 'name' == 'name':
-    loup=Loup(["jean miche","kevin","gertrude","neuf","françois","bourdin","courgette","licorne","tesla",'milka','bite','couille','testicule droit','testicule gauche','ponyta','mamie'])
+    loup=Loup(["jean miche","kevin","gertrude","neuf","françois","bourdin","courgette","licorne","tesla",'milka','bite','couille','testicule droit','chocolatine','testicule gauche','ponyta','mamie'])
     print(loup.nom_role())
     if loup.nb_player() < 10 :
         votes = input('Entrez les votes (capitaine) : ')
@@ -220,6 +262,7 @@ if 'name' == 'name':
         loup.ordre_nuits()
         loup.appel_fonction()
         loup.tuer()
+        print("La nuit est finie, le village se réveille")
         votes = input('Entrez les votes : ')
         dico = {votes:1}
         loup.vote(dico)
