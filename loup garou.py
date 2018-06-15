@@ -86,6 +86,9 @@ class Loup:
 
         if self.__capitaine in self.__tue :
             self.design_capitaine()
+        for pseudo in self.__nom.keys() :
+            if pseudo in self.__tue and self.__nom[pseudo] == "chasseur":
+                self.chasseur()
         self.__tue = []
 
 
@@ -203,7 +206,7 @@ class Loup:
     def chasseur(self):
         '''Fonction chasseur'''
         self.nom()
-        print("Le chasseur se réveille")
+        print("Le chasseur va tuer par vengeance une personne")
         choix=input("Qui le chasseur veut-il tuer ? : ")
         self.__tue.append(choix)
 
@@ -234,8 +237,6 @@ class Loup:
             self.sorciere()
         if "voleur" in self.__vrai_ordre:
             self.voleur()
-        if "chasseur" in self.__vrai_ordre:
-            self.chasseur()
         if "cupidon" in self.__vrai_ordre:
             self.cupidon()
             self.amoureux()
