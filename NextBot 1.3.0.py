@@ -19,6 +19,8 @@ print("NextBot " + ver + " " + lang)
 
 @client.event
 @asyncio.coroutine
+
+
 def on_message(message):
     rep = text = msg = message.content
     rep2 = text2 = msg2 = rep.split()
@@ -71,19 +73,45 @@ def on_message(message):
         msgs = open("msgs_user_" + server_msg + ".txt", "w")
         msgs.write(msgs_r)
         msgs.close()
+    #PARTIE SPECIFIQUE AU LOUP GAROU    
+    pseudos = []
+    def commence_par_vote(message):
+        '''montre si le message commence par !vote'''
+        v = '!vote'
+        for i in range(5) :
+            if message[i] != v[i] :
+                return False
 
+        return True
+    def veux_jouer(message):
+        '''montre si le message commence par !vote'''
+        v = '!jejoue'
+        for i in range(7) :
+            if message[i] != v[i] :
+                return False
+
+        return True
+        
+        
+    
 #Début des commandes
-    if command == "!commandtest": #Copiez ce code pour créer une commande
-        yield from client.send_message(message.channel, "Texte à envoyer.")
 
+    if veux_jouer(message.content):
+        pseudos.append(user)
+        print(pseudos)
+    if commence_par_vote(message.content):
+        print(message.content)
+
+    #FIN DE LA PARTIE SPECIFIQUE AU LOUP GAROU
+    
     if (command == "!purge" or command == "!clear") and trusted and not pm: #Cette commande sert à effacer les messages, en tapant !purge 10, le bot supprimera les 10 derniers messages.
-        yield from client.purge_from(message.channel, limit = int(params[1])) #Cette ligne sert à supprimer les messages avec params[1] qui est le premier paramètre (le nombre de messages), il y a int(params[1]) car le paramètre doit être converti en un nombre.
+        yield from client.purge_from(message.channel, limit = int(10)) #Cette ligne sert à supprimer les messages avec params[1] qui est le premier paramètre (le nombre de messages), il y a int(params[1]) car le paramètre doit être converti en un nombre.
 
     if (command == "!quit" or command == "!exit") and trusted: #Cette commande sert à fermer le bot
         yield from client.close()
 
     if command == "!say" and trusted: #Cette commande sert à envoyer un message sur un channel du serveur, le paramètre 1 doit être l'identifiant du channel et après, on doit mettre le message (exemple : !say 1234567890 Bonjour !)
-        yield from client.send_message(client.get_channel(params[1]), " ".join(params[2:]))
+        yield from client.send_message(client.get_channel('454387337955246091'), "".join('BONJOUR'))
 
     if command == "!say_user" and trusted:
         if params[2].lower() == params[2].upper():
@@ -93,3 +121,6 @@ def on_message(message):
 #Fin des commandes
 
 client.run(token)
+
+
+
