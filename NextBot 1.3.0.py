@@ -3,7 +3,7 @@
 # A lire si vous faîtes une mise à jour et si vous avez ajouté ou modifié les commandes du bot :
 # 1) Copiez vos commandes (pas les commandes par défaut) que vous avez créer dans votre ancienne version dans la nouvelle version.
 # 2) Si vous avez modifié une commande de NextBot par défaut, supprimez la commande de la nouvelle version puis copiez le code de la commande de l'ancienne version dans la nouvelle version.
-
+from loup_garou import *
 import asyncio, discord
 
 token = "NDU3MTM4ODA4MTc4MzQzOTM3.DgUvSg.RMVhx9zi6POk3Cxsfljx26jp0yg" #Mettez dans cette variable le token du bot
@@ -73,8 +73,8 @@ def on_message(message):
         msgs = open("msgs_user_" + server_msg + ".txt", "w")
         msgs.write(msgs_r)
         msgs.close()
-    #PARTIE SPECIFIQUE AU LOUP GAROU    
-    pseudos = []
+    #PARTIE SPECIFIQUE AU LOUP GAROU
+    pseudos = ['jean-miche','moi','toi','lioi','mali','coco','buit','hr','l']
     def commence_par_vote(message):
         '''montre si le message commence par !vote'''
         v = '!vote'
@@ -83,6 +83,7 @@ def on_message(message):
                 return False
 
         return True
+
     def veux_jouer(message):
         '''montre si le message commence par !vote'''
         v = '!jejoue'
@@ -91,8 +92,25 @@ def on_message(message):
                 return False
 
         return True
-        
-        
+
+    def init_dico(pseudos):
+        dico = {}
+        for i in pseudos:
+            dico[i] = 0
+        return dico
+    
+    def dico_remplie(dico,nb):
+        '''verifie si le vote est fini'''
+        cpt = 0 
+        for i in dico.keys():
+            cpt += dico[i]
+        return cpt == nb
+    
+    def select_vote(message):
+        for i in range(6):
+            message = message[i+1:]
+    def ajoute_vote(dico,vote):
+        dico[vote] += 1
     
 #Début des commandes
 
@@ -102,8 +120,23 @@ def on_message(message):
     if commence_par_vote(message.content):
         print(message.content)
 
+    if message.content == '!start':
+        yield from client.send_message(client.get_channel('454387337955246091'), "".join('LA PARTIE COMMENCE'))
+        loup = Loup(pseudos)
+
+        #revoir
+        
+        for i in pseudos:
+            client.send_message(i, "Votre rôle est :" + str(loup.nom_role()[i]))
+        #a revoir
+            
+        if loup.nb_player() < 10 :
+            yield from client.send_message(client.get_channel('454387337955246091'), "".join('IL VA FALLOIR ELIR LE CAPITAINE \nENVOYEZ VOS VOTES DANS LE SALON VOTES'))
+            dico = init_dico(pseudos)
+            #while not dico_remplie(dico,len(pseudos)):  
+
     #FIN DE LA PARTIE SPECIFIQUE AU LOUP GAROU
-    
+
     if (command == "!purge" or command == "!clear") and trusted and not pm: #Cette commande sert à effacer les messages, en tapant !purge 10, le bot supprimera les 10 derniers messages.
         yield from client.purge_from(message.channel, limit = int(10)) #Cette ligne sert à supprimer les messages avec params[1] qui est le premier paramètre (le nombre de messages), il y a int(params[1]) car le paramètre doit être converti en un nombre.
 
@@ -121,6 +154,3 @@ def on_message(message):
 #Fin des commandes
 
 client.run(token)
-
-
-
