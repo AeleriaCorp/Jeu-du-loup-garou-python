@@ -12,21 +12,20 @@ class Loup:
 
     def __init__(self,pseudos):
         '''Initialisation du loup garou'''
-        self.__role=["mj","loup","voyante","sorciere","voleur","chasseur","cupidon","bouc_emissaire"]
-        self.__role_2 = ["loup","bouc_emissaire","cupidon","chasseur","sorciere","voleur",'villageois']
+        self.__role = ["loup","bouc_emissaire","cupidon","chasseur","sorciere","voleur",'villageois']
         self.__pseudos=pseudos
         self.__nb_player=len(pseudos)
         self.__nom={}
         self.__tue = []
         self.__amoureux = ()
-        self.role_2()
+        self.role()
         self.__potion=True
         self.__poison=True
 
     def nb_player(self):
         return self.__nb_player
 
-    def role_2(self):
+    def role(self):
         pseudos = self.__pseudos.copy()
         roles_usuels = ['voyante','mj']
         for i in range(2):
@@ -35,30 +34,13 @@ class Loup:
             del(pseudos[num])
 
         i = 0
-        while i < len(self.__role_2):
+        while i < len(self.__role):
             for a in range(DICO_NBJOUEURS[self.__nb_player][i]):
                 if DICO_NBJOUEURS[self.__nb_player][i] != 0 and not pseudos == []:
                     num = randint(0,len(pseudos)-1)
-                    self.__nom[pseudos[num]] = self.__role_2[i]
+                    self.__nom[pseudos[num]] = self.__role[i]
                     del(pseudos[num])
             i += 1
-
-
-    def role(self):
-        '''Defini les rôles des personnes'''
-        liste=self.__pseudos.copy()
-        tmp=0
-        i=0
-        while liste != []:
-            x=randint(0,len(liste)-1)
-            if tmp==0:
-                self.__nom[liste[x]] = self.__role[i]
-                i+=1
-            else :
-                self.__nom[liste[x]] = "villageois"
-            del(liste[x])
-
-            tmp= (tmp+1)%2
 
     def nom_role(self):
         return self.__nom
