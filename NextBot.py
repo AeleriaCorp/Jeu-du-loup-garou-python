@@ -3,7 +3,7 @@ import asyncio, discord
 
 token = "NDU3MTM4ODA4MTc4MzQzOTM3.DgUvSg.RMVhx9zi6POk3Cxsfljx26jp0yg" #Mettez dans cette variable le token du bot
 client = discord.Client()
-pseudos = ['jean-miche','moi','toi','lioi','mali','coco','buit','hr']
+pseudos = []
 
 def commence_par_vote(message):
     '''montre si le message commence par !vote'''
