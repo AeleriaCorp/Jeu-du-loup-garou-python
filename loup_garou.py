@@ -198,7 +198,7 @@ class Loup:
         for i in ordre :
             if i in self.__nom.values():
                 self.__vrai_ordre.append(i)
-
+        return self.__vrai_ordre
 
 
     def ordre_nuits(self):
@@ -209,8 +209,8 @@ class Loup:
                 self.__vrai_ordre.append(i)
 
 
-
-    def appel_fonction(self):
+        return self.__vrai_ordre
+    def appel_fonction(self):#fonction inutile pour le bot
         if "voyante" in self.__vrai_ordre:
             self.voyante()
         if "loup" in self.__vrai_ordre:
