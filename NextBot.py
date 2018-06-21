@@ -56,6 +56,7 @@ async def on_message(message):
     if veux_jouer(message.content):
         pseudos.append(message.author)
         print(pseudos)
+        await client.send_message(message.author, "".join('participation validée'))
         
     if message.content == '!start':
         loup = Loup(pseudos)
