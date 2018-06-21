@@ -51,10 +51,10 @@ async def on_message(message):
         print(pseudos)
         
     if message.content == '!start':
+        loup = Loup(pseudos)
         await client.send_message(message.channel, "".join('LA PARTIE COMMENCE'))
-
-                
-        
+        for i in pseudos :
+            await client.send_message(i, "".join('Votre rôle : ', loup.nom_role()[i]))
     if message.content == '!private':
         await client.send_message(pseudos[-1],"".join('votre rôle :'))
     
