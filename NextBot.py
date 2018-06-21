@@ -65,14 +65,57 @@ async def on_message(message):
         for i in loup.nom_role().keys():
             phrase +=  '\n' + loup.nom_role()[i]
         await client.send_message(message.channel, "".join("voici les rôles présents dans le jeu : " + phrase))
-        
+        if len(pseudos) < 10 :
+            await client.send_message(message.channel, "".join("Il faut élire un capitaine"))
+        await client.send_message(message.channel, "".join("si le mj se sent en difficulté, faire !aide"))
+        await client.send_message(message.channel, "".join("Pour les autres, les règles sont épinglées dans ce salon"))
     if message.content == '!voleur': 
         await client.send_message(message.channel, "".join("Le voleur se réveille et donne le nom de la personne à voler"))
             
-    if message.content == '!private':
-        await client.send_message(pseudos[-1],"".join('votre rôle :'))
-    
+    if message.content == '!cupidon':
+        await client.send_message(message.channel, "".join("Cupidon se réveille et donne le nom des deux amoureux"))
 
+    if message.content == '!voyante':
+        await client.send_message(message.channel, "".join("La voyante se réveille et donne le nom du joueur dont elle veut connaître le rôle"))
+
+    if message.content == '!loup':
+        await client.send_message(message.channel, "".join("Les loups se réveillent et choisissent ensemble une proie"))
+
+    if message.content == '!sorciere':
+        await client.send_message(message.channel, "".join("La voyante se réveille, prend connaissance de la proie, et indique si elle veut la sauver, empoisonner quelqu'un d'autre ou ne rien faire"))
+    
+    if message.content == '!chasseur':
+        await client.send_message(message.channel, "".join("Le chasseur va tuer quelqu'un avant de mourir"))
+
+    if message.content == '!bouc emissaire':
+        await client.send_message(message.channel, "".join("Egalité de voies, le bouc émissaire meurt"))
+
+    if message.content == '!aide':
+        phrase = '''Voici une aide récapitulant le travail du maître du jeu :
+        -envoyer la commande !jejoue attendre que tous les joueurs ont fait de même et entrer la commande !start
+        -regarder les tous premiers messages du bot lors du démarrage de la partie, il donnera l'ordre de passage des rôles (de gauche à droite) et des instructions a faire
+        avant celles qui suivent (comme le vote du capitaine dont l'issue sera annoncé à tous les joueurs)
+        
+        -le jeu commence sur la première nuit (donc s'interresser à l'ordre de passage de la premiere nuit donnée par le bot (il se peut que aucun rôle n'y apparaisse,
+        le jeu commencera alors sur une nuit ordinaire (voir ordre des autres nuits donné par le bot)
+        
+        -le mj doit envoyer des commandes aux bots qui donnera les instructions au(x) joueur(s) ayant le rôle concerné en suivant l'ordre
+        (les commandes sont facile !voyante pour la voyante, !sorciere pour la sorcière (sans accents))
+        
+        -il doit memoriser certaines actions (ouvrir un txt pour les noter) comme par exemple les morts de la nuit, les joueurs qui ont fini de jouer, le nombre restant de
+        villageois, de loup, le nom du capitaine etc....
+        
+        -une fois la nuit finie, le mj annonce les morts de la nuit et demande au joueur de débattre et de voter pour tuer quelqu'un (faire un !vote), les joueurs envoyent en
+        message privée au mj leur vote (attention le capitaine aura 2 voies) si l'issue du vote est une égalité, le bouc emissaire meurt (faire la commande !bouc emissaire), et
+        si il est déjà mort ou inexistant, le capitaine choisit alors le joueur qui meurt entre ceux qui ont le plus grand nombre de voies
+        
+        Lorsque des joueurs meurts, indiquer le rôle qu'ils avaient
+        
+        -puis la nuit suivante commence,.....puis le jour et ainsi de suite jusqu'à ce qu'il ne reste plus qu'un villageois ou qu'il ne reste plus de loups le mj annonce les
+        gagnants''' 
+        await client.send_message(message.author, "".join(phrase))
+
+    
 client.run(token)
 
 
