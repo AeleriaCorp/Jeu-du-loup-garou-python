@@ -37,6 +37,13 @@ def ajoute_vote(dico,vote):
     if vote != '' :
         dico[vote] += 1
     return dico
+def autres_loup(dico,loup):
+    phrase = 'les autres loup sont : \n'
+    for i in dico.keys():
+        if dico[i] == 'loup' and i != loup:
+            phrase += '| i'
+    return phrase
+        
 
 @client.event
 async def on_ready():
@@ -58,6 +65,10 @@ async def on_message(message):
             if loup.nom_role()[i] == 'mj':
                 await client.send_message(message.channel, "".join('le maître du jeu est : ' + str(i)))
             await client.send_message(i, "".join('Votre rôle : ' + str(loup.nom_role()[i])))
+        for i in loup.nom_role().keys():
+            if i == 'loup':
+                await client.send_message(i, "".join(autres_loup(loup.nom_role(),i)))
+                
         if len(loup.ordre_premiere_nuit()) != 0 :
             await client.send_message(message.channel, "".join("voici l'ordre des joueurs de la première nuit : " + str(loup.ordre_premiere_nuit())))
         await client.send_message(message.channel, "".join("voici l'ordre des joueurs des autres nuits : " + str(loup.ordre_nuits())))
@@ -67,7 +78,7 @@ async def on_message(message):
         await client.send_message(message.channel, "".join("voici les rôles présents dans le jeu : " + phrase))
         if len(pseudos) < 10 :
             await client.send_message(message.channel, "".join("Il faut élire un capitaine"))
-        await client.send_message(message.channel, "".join("si le mj se sent en difficulté, faire !aide"))
+        await client.send_message(message.channel, "".join("\n si le mj se sent en difficulté, faire !aide"))
         await client.send_message(message.channel, "".join("Pour les autres, les règles sont épinglées dans ce salon"))
     if message.content == '!voleur': 
         await client.send_message(message.channel, "".join("Le voleur se réveille et donne le nom de la personne à voler"))
