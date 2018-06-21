@@ -20,7 +20,6 @@ def veux_jouer(message):
     for i in range(7) :
         if message[i] != v[i] :
             return False
-
     return True
 
 def init_dico(pseudos):
@@ -40,7 +39,6 @@ def ajoute_vote(dico,vote):
     return dico
 
 @client.event
-
 async def on_ready():
     ver = "1.3.0"
     lang = "fr"
@@ -48,50 +46,13 @@ async def on_ready():
     
 @client.event
 async def on_message(message):
-
-    class Votes:
-        def __init__(self,pseudos):
-            self.__pseudos = pseudos
-            self.__dico = {}
-            for i in self.__pseudos:
-                self.__dico[i] = 0
-            self.__vote = True
-                
-        def vote(self,vote):
-            self.dico[vote] += 1
-            self.stop_vote()
-            
-        def vote_ouvert(self):
-            return self.__vote
-
-        def dico(self):
-            return self.__dico
-        
-        def stop_vote(self):
-            cpt = 0
-            for i in self.__dico.keys():
-                cpt += self.__dico[i]
-            if cpt == len(self.__pseudos):
-                self.__vote = False
-                
-
-    def gestion_vote(message,votes):
-        if commence_par_vote(message.content) and votes.vote_ouvert():
-            vote = select_vote(message.content)
-            votes.vote(vote)
-            
     if veux_jouer(message.content):
         pseudos.append(message.author)
         print(pseudos)
         
     if message.content == '!start':
         await client.send_message(message.channel, "".join('LA PARTIE COMMENCE'))
-        if len(pseudos) < 10 :
-            await client.send_message(message.channel, "".join('Il faut élire le capitaine(!vote)'))
-            votes = Votes(pseudos)
-            while votes.vote_ouvert():
-                gestion_vote(message,votes)
-            await client.send_message(message.channel, "".join('vote terminé'))
+
                 
         
     if message.content == '!private':
